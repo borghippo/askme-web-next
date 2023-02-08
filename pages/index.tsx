@@ -9,7 +9,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 export default function Home() {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [corpus, setCorpus] = useState("scifact");
+  const [corpus, setCorpus] = useState("nfcorpus");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -59,7 +59,7 @@ export default function Home() {
               className={`text-5xl font-extrabold  ${
                 theme == "dark"
                   ? "text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500"
-                  : "text-red-700"
+                  : "text-blue-800"
               } text-center py-6`}
             >
               AskMe Search
@@ -80,8 +80,8 @@ export default function Home() {
               onChange={(e) => handleCorpusChange(e)}
               className="select select-bordered w-full"
             >
-              <option value={"scifact"}>SciFact</option>
               <option value={"nfcorpus"}>NFCorpus</option>
+              <option value={"scifact"}>SciFact</option>
             </select>
           </div>
         </div>

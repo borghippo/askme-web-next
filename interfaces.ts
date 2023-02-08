@@ -11,7 +11,7 @@ export interface ElasticResult {
 }
 
 export interface ElasticDocument {
-  refresh: string;
-  txt: string;
   title: string;
+  text: string;
+  url: string;
 }

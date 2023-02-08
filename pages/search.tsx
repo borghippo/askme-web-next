@@ -81,7 +81,7 @@ export default function Search({
               className={`text-4xl sm:text-3xl font-extrabold max-sm:mb-2  ${
                 theme == "dark"
                   ? "text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500"
-                  : "text-red-700"
+                  : "text-blue-800"
               } text-center`}
             >
               AskMe Search
@@ -107,8 +107,8 @@ export default function Search({
             onChange={(e) => handleCorpusChange(e)}
             className="select select-sm select-bordered max-sm:w-full max-w-md sm:mr-4"
           >
-            <option value={"scifact"}>SciFact</option>
             <option value={"nfcorpus"}>NFCorpus</option>
+            <option value={"scifact"}>SciFact</option>
           </select>
           <label className="swap swap-rotate sm:ml-auto max-sm:hidden">
             <input
