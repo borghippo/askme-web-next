@@ -1,7 +1,7 @@
-# AskMe-Web-Next
+# NextJS React app for AskMe search
 
-## NextJS react app for AskMe search
+## Building and Running
 
-see ".env.local.example" for example ".env.local" environment variables file (loaded on build)
-
-run "npm run build" to build and then "npm run start" to run
+create `.env.local` file and add in route to API question endpoint (see `.env.local.example` for example environment variables file)  
+`$ npm run build` to build  
+`$ npm run start` to run
