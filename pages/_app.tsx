@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export default function App({ Component, pageProps }: AppProps) {
   const [isMounted, setIsMounted] = useState(false);
 
-  // wait for client to mount for themeing
+  // wait for client to mount for theming
   useEffect(() => {
     setIsMounted(true);
   }, []);
