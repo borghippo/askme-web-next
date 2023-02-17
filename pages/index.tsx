@@ -1,34 +1,25 @@
-import { useTheme } from "next-themes";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import Hero from "@/components/Hero";
 
-// TODO add support for logo change on theme change (will have to wait for mount like in search page)
-// or could make a logo for "AskMe Search" instead of text
 export default function Home() {
   const router = useRouter();
-  const [query, setQuery] = useState("");
-  const [corpus, setCorpus] = useState("nfcorpus");
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const [loading, setLoading] = useState(false);
 
-  // wait until mounted so we can check what the theme is
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleCorpusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCorpus(e.target.value);
-  };
-
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    e: React.FormEvent<HTMLFormElement>,
+    corpus: string,
+    query: string
+  ) => {
     e.preventDefault();
-    if (query) {
+    if (query && router && !loading) {
+      setLoading(true);
       router.push({
         pathname: "/search",
         query: {
@@ -39,7 +30,6 @@ export default function Home() {
     }
   };
 
-  // add a spinner while loading
   if (!mounted) {
     return null;
   }
@@ -47,45 +37,12 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>AskMe</title>
+        <title>AskMe Search</title>
         <meta name="description" content="askme anything" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="hero min-h-screen items-start">
-        <div className="hero-content text-center">
-          <div className="max-w-md space-y-2">
-            <h1
-              className={`text-5xl font-extrabold  ${
-                theme == "dark"
-                  ? "text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500"
-                  : "text-blue-800"
-              } text-center py-6`}
-            >
-              AskMe Search
-            </h1>
-            <form onSubmit={(e) => handleSubmit(e)} className="input-group">
-              <input
-                type="text"
-                placeholder="Search…"
-                onChange={(e) => handleQueryChange(e)}
-                className="input input-bordered w-full"
-              />
-              <button type="submit" className="btn btn-square">
-                <MagnifyingGlassIcon className="w-6 h-6" />
-              </button>
-            </form>
-            <select
-              value={corpus}
-              onChange={(e) => handleCorpusChange(e)}
-              className="select select-bordered w-full"
-            >
-              <option value={"nfcorpus"}>NFCorpus</option>
-              <option value={"scifact"}>SciFact</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      {<Hero handleSubmit={handleSubmit} loading={loading} />}
     </>
   );
 }

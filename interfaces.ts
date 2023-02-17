@@ -1,17 +1,18 @@
-export interface ElasticResultData {
-  answer: ElasticResult[];
+export interface AskMeResultData {
+  query: {
+    question: string;
+  };
+  documents: AskMeDocument[];
+  duration: number;
 }
 
-export interface ElasticResult {
-  _index: string;
-  _type: string;
-  _id: string;
-  _score: number;
-  _source: ElasticDocument;
-}
-
-export interface ElasticDocument {
-  title: string;
-  text: string;
-  url: string;
+export interface AskMeDocument {
+  id?: string;
+  title?: {
+    text: string;
+  };
+  articleAbstract?: {
+    text: string;
+  };
+  url?: string;
 }
