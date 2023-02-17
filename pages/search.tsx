@@ -18,6 +18,7 @@ export default function Search({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // wait until mounted to use theme
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -44,6 +45,7 @@ export default function Search({
     }
   };
 
+  // wait until mounted to use theme
   if (!mounted) {
     return null;
   }

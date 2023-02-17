@@ -8,6 +8,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // wait until client mounted to use theme
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -30,6 +31,7 @@ export default function Home() {
     }
   };
 
+  // wait until mounted to use theme
   if (!mounted) {
     return null;
   }
@@ -42,7 +44,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {<Hero handleSubmit={handleSubmit} loading={loading} />}
+      <Hero handleSubmit={handleSubmit} loading={loading} />
     </>
   );
 }
