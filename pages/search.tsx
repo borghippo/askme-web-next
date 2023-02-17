@@ -1,6 +1,6 @@
 import SearchResultsCards from "@/components/SearchResultsCards";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Header from "@/components/Header";
 import { getQueryString } from "@/utils/getQueryString";
@@ -12,20 +12,10 @@ import NoResults from "@/components/NoResults";
 export default function Search({
   c: corpusProp,
   q: queryProp,
-  r: resultsProp,
+  data: dataProp,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  // wait until mounted to use theme
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    setLoading(false);
-  }, [router.query]);
 
   const fetchResults = async (
     e: React.FormEvent<HTMLFormElement>,
@@ -45,11 +35,6 @@ export default function Search({
     }
   };
 
-  // wait until mounted to use theme
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <>
       <Head>
@@ -65,8 +50,8 @@ export default function Search({
           fetchResults={fetchResults}
         />
         {!loading ? (
-          resultsProp.length > 1 ? (
-            <SearchResultsCards results={resultsProp} />
+          dataProp.documents?.length > 1 ? (
+            <SearchResultsCards results={dataProp.documents} />
           ) : (
             <NoResults />
           )
@@ -98,9 +83,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     method: "POST",
   });
   const data: AskMeResultData = await res.json();
-  if (data.documents) {
-    const r = data.documents;
-    return { props: { c, q, r } };
-  }
-  return redirectToHome;
+  return { props: { c, q, data } };
 };

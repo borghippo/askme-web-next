@@ -1,4 +1,6 @@
-# AskMe-App
+# AskMe-Web-Next
+
+## NextJS web app for AskMe search
 
 see ".env.local.example" for example ".env.local" environment variables file
 
