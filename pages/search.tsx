@@ -23,7 +23,12 @@ export default function Search({
     query: string
   ) => {
     e.preventDefault();
-    if (query && router && !loading) {
+    if (
+      !(query == queryProp && corpus == corpusProp) &&
+      query &&
+      router &&
+      !loading
+    ) {
       setLoading(true);
       router.push({
         pathname: "/search",
@@ -64,18 +69,21 @@ export default function Search({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const redirectToHome = {
-    redirect: {
-      permanent: false,
-      destination: "/",
-    },
-  };
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
   const params = context.query;
   const { c, q } = params;
 
   if (!c || !q) {
-    return redirectToHome;
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
   }
 
   const queryString = getQueryString(c as string, q as string);
