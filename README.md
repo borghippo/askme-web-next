@@ -1,4 +1,4 @@
-# NextJS React app for AskMe search
+# AskMe Search
 
 ## Building and Running
 
