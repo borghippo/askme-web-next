@@ -15,4 +15,12 @@ export interface AskMeDocument {
     text: string;
   };
   url?: string;
+  nscore?: number;
+  entities?: string;
+}
+
+export enum DisplayMode {
+  Normal,
+  Related,
+  Entity,
 }

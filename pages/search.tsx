@@ -1,13 +1,12 @@
 import SearchResultsCards from "@/components/SearchResultsCards";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Header from "@/components/Header";
 import { getQueryString } from "@/utils/getQueryString";
 import Head from "next/head";
 import Loading from "@/components/Loading";
-import { AskMeResultData } from "@/interfaces";
-import NoResults from "@/components/NoResults";
+import { AskMeResultData, DisplayMode } from "@/types";
 
 export default function Search({
   c: corpusProp,
@@ -15,13 +14,13 @@ export default function Search({
   data: dataProp,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<AskMeResultData>(dataProp);
+  const [displayMode, setDisplayMode] = useState<DisplayMode>(
+    DisplayMode.Normal
+  );
   const router = useRouter();
 
-  const fetchResults = async (
-    e: React.FormEvent<HTMLFormElement>,
-    corpus: string,
-    query: string
-  ) => {
+  const fetchResults = async (e: any, corpus: string, query: string) => {
     e.preventDefault();
     if (
       !(query == queryProp && corpus == corpusProp) &&
@@ -40,6 +39,36 @@ export default function Search({
     }
   };
 
+  // testing related documents fetching with SPA like loading until finished with backend changes so query can have its own route
+  const fetchRelated = async (e: any, corpus: string, query: string) => {
+    e.preventDefault();
+    if (!loading && corpus && query) {
+      setLoading(true);
+      const requestData = { corpus: corpus, query: query };
+      const res = await fetch("/api/fetchRelatedDocuments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+      const relatedDocuments = await res.json();
+      console.log(relatedDocuments);
+      setData((prev) => ({
+        ...prev,
+        documents: relatedDocuments,
+      }));
+      setDisplayMode(DisplayMode.Related);
+      setLoading(false);
+    }
+  };
+
+  // temp method to get back to original results by reloading route
+  const backToResults = () => {
+    setLoading(true);
+    router.reload();
+  };
+
   return (
     <>
       <Head>
@@ -48,22 +77,23 @@ export default function Search({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <Header
-          corpusProp={corpusProp}
-          queryProp={queryProp}
-          fetchResults={fetchResults}
+      <Header
+        corpusProp={corpusProp}
+        queryProp={queryProp}
+        fetchResults={fetchResults}
+      />
+      {!loading ? (
+        <SearchResultsCards
+          results={data.documents}
+          corpus={corpusProp}
+          fetchRelated={fetchRelated}
+          displayMode={displayMode}
+          setDisplayMode={setDisplayMode}
+          backToResults={backToResults}
         />
-        {!loading ? (
-          dataProp.documents?.length > 1 ? (
-            <SearchResultsCards results={dataProp.documents} />
-          ) : (
-            <NoResults />
-          )
-        ) : (
-          <Loading />
-        )}
-      </div>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }
