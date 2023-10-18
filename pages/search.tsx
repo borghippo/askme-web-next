@@ -16,7 +16,7 @@ export default function Search({
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<AskMeResultData>(dataProp);
   const [displayMode, setDisplayMode] = useState<DisplayMode>(
-    DisplayMode.Normal
+    DisplayMode.Normal,
   );
   const router = useRouter();
 

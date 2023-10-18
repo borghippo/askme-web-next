@@ -7,16 +7,17 @@ export interface AskMeResultData {
 }
 
 export interface AskMeDocument {
-  id?: string;
-  title?: {
+  id: string;
+  title: {
     text: string;
   };
-  articleAbstract?: {
+  articleAbstract: {
     text: string;
   };
-  url?: string;
-  nscore?: number;
-  entities?: string;
+  url: string;
+  score: number;
+  nscore: number;
+  entities: string;
 }
 
 export enum DisplayMode {
