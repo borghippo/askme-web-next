@@ -17,7 +17,6 @@ export interface AskMeDocument {
   url: string;
   score: number;
   nscore: number;
-  entities: string;
 }
 
 export enum DisplayMode {
