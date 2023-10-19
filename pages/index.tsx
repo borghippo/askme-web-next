@@ -10,7 +10,7 @@ export default function Home() {
   const handleSubmit = (
     e: React.FormEvent<HTMLFormElement>,
     corpus: string,
-    query: string
+    query: string,
   ) => {
     e.preventDefault();
     if (query && router && !loading) {

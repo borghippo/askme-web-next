@@ -1,19 +1,19 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import Spinner from "./Spinner";
+import { domains } from "@/config/domains";
 
 interface HeroProps {
   handleSubmit: (
     e: React.FormEvent<HTMLFormElement>,
     corpus: string,
-    query: string
+    query: string,
   ) => void;
   loading: boolean;
 }
 
 export default function Hero({ handleSubmit, loading }: HeroProps) {
   const [query, setQuery] = useState("");
-  const [corpus, setCorpus] = useState("nfcorpus");
+  const [corpus, setCorpus] = useState(domains[0]);
 
   const handleCorpusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCorpus(e.target.value);
@@ -43,23 +43,28 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
               type="text"
               placeholder="Search…"
               onChange={(e) => handleQueryChange(e)}
-              className="input-bordered input w-full"
+              className="input input-bordered w-full"
             />
-            <button type="submit" className="btn-square btn">
+            <button type="submit" className="btn btn-square">
               {!loading ? (
                 <MagnifyingGlassIcon className="h-6 w-6" />
               ) : (
-                <Spinner />
+                <div className="loading loading-spinner"></div>
               )}
             </button>
           </form>
           <select
             value={corpus}
             onChange={(e) => handleCorpusChange(e)}
-            className="select-bordered select w-full"
+            className="select select-bordered w-full"
           >
-            <option value={"nfcorpus"}>NFCorpus</option>
-            <option value={"scifact"}>SciFact</option>
+            {domains.map((corpus, i) => {
+              return (
+                <option key={i} value={corpus}>
+                  {corpus}
+                </option>
+              );
+            })}
           </select>
         </div>
       </div>

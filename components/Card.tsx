@@ -44,7 +44,7 @@ export default function Card({
       <div className="flex flex-col">
         <div className="group">
           <div className="flex gap-x-2">
-            <a href={result.url} className="text-sm line-clamp-1">
+            <a href={result.url} className="line-clamp-1 text-sm">
               {result.url}
             </a>
             {/* <div className="flex items-center gap-x-1">
@@ -53,13 +53,13 @@ export default function Card({
             </div> */}
           </div>
           <a href={result.url}>
-            <h2 className="text-lg font-medium text-primary line-clamp-2 group-hover:underline">
-              {result.title?.text}
+            <h2 className="line-clamp-2 text-lg font-medium text-primary group-hover:underline">
+              {result.title.text}
             </h2>
           </a>
         </div>
         {/* <p className="text-sm text-secondary">J Doe, M Smith, T Davis</p> */}
-        <p className="text-sm line-clamp-3">{result.articleAbstract?.text}</p>
+        <p className="line-clamp-3 text-sm">{result.articleAbstract.text}</p>
         <div className="mt-1 flex gap-x-2 text-primary">
           <div
             onClick={(e) =>

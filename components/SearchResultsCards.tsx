@@ -37,7 +37,7 @@ export default function SearchResultsCards({
         {displayMode != DisplayMode.Normal && (
           <button
             onClick={() => backToResults()}
-            className="btn-sm btn mt-3 w-40"
+            className="btn btn-sm mt-3 w-40"
           >
             back to results
           </button>
@@ -55,20 +55,22 @@ export default function SearchResultsCards({
             {results.length} results returned
           </p>
         ) : (
-          <button onClick={() => backToResults()} className="btn-sm btn w-40">
+          <button onClick={() => backToResults()} className="btn btn-sm w-40">
             back to results
           </button>
         )}
-        {numChecked > 0 && (
-          <div className="flex items-center gap-x-2 text-secondary">
-            <div className="btn-secondary btn-sm btn gap-2">
-              {`Process ${
-                numChecked == 1 ? "Document" : `${numChecked} Documents`
-              }`}
+        <div>
+          {numChecked > 0 && (
+            <button className="btn btn-sm">
+              <p>
+                {`Process ${
+                  numChecked == 1 ? "Document" : `${numChecked} Documents`
+                }`}
+              </p>
               <CogIcon className="h-6 w-6" />
-            </div>
-          </div>
-        )}
+            </button>
+          )}
+        </div>
       </div>
       {results.map((result, i) => {
         return (

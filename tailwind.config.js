@@ -8,13 +8,13 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui"), require("@tailwindcss/line-clamp")],
+  plugins: [require("daisyui")],
 
   daisyui: {
     themes: [
       {
         light: {
-          ...require("daisyui/src/colors/themes")["[data-theme=light]"],
+          ...require("daisyui/src/theming/themes")["[data-theme=light]"],
           primary: "#1e40af",
           secondary: "#166534",
         },
