@@ -31,7 +31,7 @@ export default function SearchResultsCards({
     }
   }, [results]);
 
-  if (!results || results.length <= 1) {
+  if (results.length == 0) {
     return (
       <div className="mx-auto w-full px-3 md:pl-32 lg:pl-60">
         {displayMode != DisplayMode.Normal && (
