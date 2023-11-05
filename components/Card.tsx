@@ -54,17 +54,15 @@ export default function Card({
           </div>
           <a href={result.url}>
             <h2 className="line-clamp-2 text-lg font-medium text-primary group-hover:underline">
-              {result.title.text}
+              {result.title}
             </h2>
           </a>
         </div>
         {/* <p className="text-sm text-secondary">J Doe, M Smith, T Davis</p> */}
-        <p className="line-clamp-3 text-sm">{result.articleAbstract.text}</p>
+        <p className="line-clamp-3 text-sm">{result.summary}</p>
         <div className="mt-1 flex gap-x-2 text-primary">
           <div
-            onClick={(e) =>
-              fetchRelated(e, corpus, result.articleAbstract!.text)
-            }
+            onClick={(e) => fetchRelated(e, corpus, result.summary)}
             className="group flex items-center gap-x-1 hover:cursor-pointer"
           >
             <DocumentIcon className="h-4 w-4" />

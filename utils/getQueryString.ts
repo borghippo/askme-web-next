@@ -1,10 +1,10 @@
-export const getQueryString = (corpus: string, query: string) => {
+export const getQueryString = (domain: string, query: string) => {
   const queryString =
     (process.env.ASKME_API as string) +
-    "/question?" +
+    "/api/question?" +
     new URLSearchParams({
-      domain: corpus,
-      question: query,
+      domain,
+      query,
     });
 
   return queryString;

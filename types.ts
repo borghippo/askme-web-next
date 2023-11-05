@@ -7,13 +7,9 @@ export interface AskMeResultData {
 }
 
 export interface AskMeDocument {
-  id: string;
-  title: {
-    text: string;
-  };
-  articleAbstract: {
-    text: string;
-  };
+  identifier: string;
+  title: string;
+  summary: string;
   url: string;
   score: number;
   nscore: number;

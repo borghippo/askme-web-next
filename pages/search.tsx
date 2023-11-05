@@ -9,22 +9,22 @@ import Loading from "@/components/Loading";
 import { AskMeResultData, DisplayMode } from "@/types";
 
 export default function Search({
-  c: corpusProp,
-  q: queryProp,
-  data: dataProp,
+  corpus,
+  query,
+  resultData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<AskMeResultData>(dataProp);
+  const [data, setData] = useState<AskMeResultData>(resultData);
   const [displayMode, setDisplayMode] = useState<DisplayMode>(
     DisplayMode.Normal,
   );
   const router = useRouter();
 
-  const fetchResults = async (e: any, corpus: string, query: string) => {
+  const fetchResults = async (e: any, newCorpus: string, newQuery: string) => {
     e.preventDefault();
     if (
-      !(query == queryProp && corpus == corpusProp) &&
-      query &&
+      !(newQuery == query && newCorpus == corpus) &&
+      newQuery &&
       router &&
       !loading
     ) {
@@ -32,8 +32,8 @@ export default function Search({
       router.push({
         pathname: "/search",
         query: {
-          c: corpus,
-          q: query,
+          c: newCorpus,
+          q: newQuery,
         },
       });
     }
@@ -72,20 +72,20 @@ export default function Search({
   return (
     <>
       <Head>
-        <title>{queryProp}</title>
+        <title>{query}</title>
         <meta name="description" content="askme anything" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header
-        corpusProp={corpusProp}
-        queryProp={queryProp}
+        corpusProp={corpus}
+        queryProp={query}
         fetchResults={fetchResults}
       />
       {!loading ? (
         <SearchResultsCards
           results={data.documents}
-          corpus={corpusProp}
+          corpus={corpus}
           fetchRelated={fetchRelated}
           displayMode={displayMode}
           setDisplayMode={setDisplayMode}
@@ -98,7 +98,7 @@ export default function Search({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = (async (context) => {
   const params = context.query;
   const { c, q } = params;
 
@@ -111,10 +111,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
+  const corpus = c as string;
+  const query = q as string;
+
   const queryString = getQueryString(c as string, q as string);
   const res = await fetch(queryString, {
     method: "POST",
   });
-  const data: AskMeResultData = await res.json();
-  return { props: { c, q, data } };
-};
+  const resultData: AskMeResultData = await res.json();
+  return { props: { corpus, query, resultData } };
+}) satisfies GetServerSideProps<{
+  corpus: string;
+  query: string;
+  resultData: AskMeResultData;
+}>;
