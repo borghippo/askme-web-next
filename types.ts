@@ -13,7 +13,10 @@ export interface AskMeDocument {
   url: string;
   score: number;
   nscore: number;
+  terms: AskMeTerms[];
 }
+
+export type AskMeTerms = [string, number, number];
 
 export enum DisplayMode {
   Normal,
