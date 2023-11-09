@@ -11,7 +11,6 @@ interface CardProps {
   index: number;
   checked: boolean;
   setChecked: React.Dispatch<React.SetStateAction<boolean[]>>;
-  fetchRelated: (e: any, corpus: string, query: string) => void;
 }
 
 export default function Card({
@@ -20,7 +19,6 @@ export default function Card({
   index,
   checked,
   setChecked,
-  fetchRelated,
 }: CardProps) {
   const handleCheck = () => {
     setChecked((prev) => {
@@ -61,10 +59,7 @@ export default function Card({
         {/* <p className="text-sm text-secondary">J Doe, M Smith, T Davis</p> */}
         <p className="line-clamp-3 text-sm">{result.summary}</p>
         <div className="mt-1 flex gap-x-2 text-primary">
-          <div
-            onClick={(e) => fetchRelated(e, corpus, result.summary)}
-            className="group flex items-center gap-x-1 hover:cursor-pointer"
-          >
+          <div className="group flex items-center gap-x-1 hover:cursor-pointer">
             <DocumentIcon className="h-4 w-4" />
             <a className="text-sm font-medium group-hover:underline">
               Related Documents

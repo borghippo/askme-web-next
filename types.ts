@@ -17,9 +17,3 @@ export interface AskMeDocument {
 }
 
 export type AskMeTerms = [string, number, number];
-
-export enum DisplayMode {
-  Normal,
-  Related,
-  Entity,
-}
