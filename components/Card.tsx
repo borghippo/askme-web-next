@@ -28,6 +28,7 @@ export default function Card({
     });
   };
 
+  //TODO: fix bug with some result lines not clamping
   return (
     <div className="mb-6 flex max-w-xl flex-row gap-x-4">
       <label className="mt-1 flex flex-col items-center gap-y-2 text-sm hover:cursor-pointer">

@@ -1,5 +1,7 @@
 export default function NoResults() {
   return (
-    <p className="mb-3 mt-5 text-xl font-bold">{`No results, try a different query`}</p>
+    <div className="flex justify-center mt-24">
+      <p className="text-2xl font-semibold">{"No results found..."}</p>
+    </div>
   );
 }

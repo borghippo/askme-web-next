@@ -19,12 +19,7 @@ export default function Search({
 
   const fetchResults = async (e: any, newCorpus: string, newQuery: string) => {
     e.preventDefault();
-    if (
-      !(newQuery == query && newCorpus == corpus) &&
-      newQuery &&
-      router &&
-      !loading
-    ) {
+    if (!(newQuery == query && newCorpus == corpus) && newQuery && !loading) {
       setLoading(true);
       router.push({
         pathname: "/search",
