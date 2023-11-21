@@ -16,8 +16,8 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
 
   return (
     <div className="hero min-h-screen w-full">
-      <div className="hero-content flex-col lg:flex-row">
-        <div className="max-w-md space-y-2">
+      <div className="hero-content">
+        <div className="max-w-md space-y-2 flex flex-col">
           <h1 className="text-center text-5xl font-bold text-primary">
             AskMe Search
           </h1>
@@ -26,17 +26,14 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <form
-            onSubmit={(e) => handleSubmit(e, query)}
-            className="input-group"
-          >
+          <form onSubmit={(e) => handleSubmit(e, query)} className="join">
             <input
               type="text"
               placeholder="Search…"
               onChange={(e) => handleQueryChange(e)}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full join-item"
             />
-            <button type="submit" className="btn btn-square">
+            <button type="submit" className="btn btn-square join-item">
               {!loading ? (
                 <MagnifyingGlassIcon className="h-6 w-6" />
               ) : (
