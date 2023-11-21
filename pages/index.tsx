@@ -7,18 +7,13 @@ export default function Home() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (
-    e: React.FormEvent<HTMLFormElement>,
-    corpus: string,
-    query: string,
-  ) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>, query: string) => {
     e.preventDefault();
     if (query && router && !loading) {
       setLoading(true);
       router.push({
         pathname: "/search",
         query: {
-          c: corpus,
           q: query,
         },
       });

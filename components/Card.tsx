@@ -1,13 +1,13 @@
-import { AskMeDocument } from "@/types";
+import { AskMeDocumentMultiple } from "@/types";
 import {
   BeakerIcon,
   DocumentIcon,
   TrophyIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 interface CardProps {
-  result: AskMeDocument;
-  corpus: string;
+  result: AskMeDocumentMultiple;
   index: number;
   checked: boolean;
   setChecked: React.Dispatch<React.SetStateAction<boolean[]>>;
@@ -15,7 +15,6 @@ interface CardProps {
 
 export default function Card({
   result,
-  corpus,
   index,
   checked,
   setChecked,
@@ -60,18 +59,21 @@ export default function Card({
         {/* <p className="text-sm text-secondary">J Doe, M Smith, T Davis</p> */}
         <p className="line-clamp-3 text-sm">{result.summary}</p>
         <div className="mt-1 flex gap-x-2 text-primary">
-          <div className="group flex items-center gap-x-1 hover:cursor-pointer">
+          <Link
+            href={`/doc/${result.identifier}`}
+            className="group flex items-center gap-x-1 hover:cursor-pointer"
+          >
             <DocumentIcon className="h-4 w-4" />
-            <a className="text-sm font-medium group-hover:underline">
-              Related Documents
-            </a>
-          </div>
-          <div className="group flex items-center gap-x-1 hover:cursor-pointer">
+            <p className="text-sm font-medium group-hover:underline">
+              Document Summary
+            </p>
+          </Link>
+          {/* <div className="group flex items-center gap-x-1 hover:cursor-pointer">
             <BeakerIcon className="h-4 w-4" />
             <a className="text-sm font-medium group-hover:underline">
               Entity Summary
             </a>
-          </div>
+          </div> */}
           {/* <div className="flex items-center gap-x-1">
             <TrophyIcon className="h-4 w-4" />
             <p className="text-sm font-medium">{result.nscore?.toFixed(2)}</p>

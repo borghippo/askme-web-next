@@ -3,21 +3,12 @@ import { useState } from "react";
 import { domains } from "@/config/domains";
 
 interface HeroProps {
-  handleSubmit: (
-    e: React.FormEvent<HTMLFormElement>,
-    corpus: string,
-    query: string,
-  ) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>, query: string) => void;
   loading: boolean;
 }
 
 export default function Hero({ handleSubmit, loading }: HeroProps) {
   const [query, setQuery] = useState("");
-  const [corpus, setCorpus] = useState(domains[0]);
-
-  const handleCorpusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCorpus(e.target.value);
-  };
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -36,7 +27,7 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
             a id nisi.
           </p>
           <form
-            onSubmit={(e) => handleSubmit(e, corpus, query)}
+            onSubmit={(e) => handleSubmit(e, query)}
             className="input-group"
           >
             <input
@@ -53,19 +44,6 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
               )}
             </button>
           </form>
-          <select
-            value={corpus}
-            onChange={(e) => handleCorpusChange(e)}
-            className="select select-bordered w-full"
-          >
-            {domains.map((corpus, i) => {
-              return (
-                <option key={i} value={corpus}>
-                  {corpus}
-                </option>
-              );
-            })}
-          </select>
         </div>
       </div>
       <div className="custom-shape-divider-bottom">
