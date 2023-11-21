@@ -1,6 +1,5 @@
 import Loading from "@/components/Loading";
 import { AskMeDocumentSingle } from "@/types";
-import { getDocQueryString } from "@/utils/getQueryString";
 import { useRouter } from "next/router";
 import useSWR, { Fetcher } from "swr";
 
