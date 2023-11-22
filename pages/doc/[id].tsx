@@ -20,7 +20,7 @@ export default function Doc() {
   }
   return (
     <div>
-      <div className="flex justify-center mt-3">
+      <div className="flex justify-center mt-4">
         <article className="prose">
           <h1>{document.title}</h1>
           <p>
@@ -32,7 +32,6 @@ export default function Doc() {
           <table>
             <thead>
               <tr>
-                <th></th>
                 <th>Name</th>
                 <th>Count</th>
                 <th>TF-IDF</th>
@@ -42,7 +41,6 @@ export default function Doc() {
               {document.terms.map((term, i) => {
                 return (
                   <tr key={i}>
-                    <th>{i + 1}</th>
                     <Link href={`/search?q=${term[0]}`}>
                       <td className="link link-primary">{term[0]}</td>
                     </Link>
