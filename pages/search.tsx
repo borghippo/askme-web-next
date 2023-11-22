@@ -2,15 +2,15 @@ import SearchResultsCards from "@/components/SearchResultsCards";
 import Loading from "@/components/Loading";
 import { AskMeResultData } from "@/types";
 import useSWR, { Fetcher } from "swr";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
 
 const fetcher: Fetcher<AskMeResultData, string> = (q) =>
   fetch(q).then((res) => res.json());
 
-export default function Search({
-  queryProp,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { data } = useSWR(`/api/results?q=${queryProp}`, fetcher, {
+export default function Search() {
+  const router = useRouter();
+  const { q } = router.query;
+  const { data } = useSWR(q ? `/api/results?q=${q}` : null, fetcher, {
     revalidateOnFocus: false,
   });
 
@@ -20,14 +20,3 @@ export default function Search({
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = (async (context) => {
-  const params = context.query;
-  const { q } = params;
-
-  const queryProp = q as string;
-
-  return { props: { queryProp } };
-}) satisfies GetServerSideProps<{
-  queryProp: string;
-}>;
