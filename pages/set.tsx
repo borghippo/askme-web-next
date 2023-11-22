@@ -19,40 +19,42 @@ export default function Doc() {
     return <Loading />;
   }
   return (
-    <div className="flex justify-center">
-      <article className="prose">
-        <h2>{`Terms for ${set.documents.length} documents`}</h2>
-        <ul>
-          {set.documents.map((document, i) => {
-            return <li key={i}>{document.title}</li>;
-          })}
-        </ul>
-        <table>
-          {/* head */}
-          <thead>
-            <tr>
-              <th></th>
-              <th>TF-IDF</th>
-              <th>Count</th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {set.terms.map((term, i) => {
-              return (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  <td>{term[0]}</td>
-                  <td>{term[1]}</td>
-                  <Link href={`/search?q=${term[2]}`}>
-                    <td className="link link-primary">{term[2]}</td>
-                  </Link>
-                </tr>
-              );
+    <div>
+      <div className="flex justify-center mt-3">
+        <article className="prose">
+          <h2>{`Terms for ${set.documents.length} documents`}</h2>
+          <ul>
+            {set.documents.map((document, i) => {
+              return <li key={i}>{document.title}</li>;
             })}
-          </tbody>
-        </table>
-      </article>
+          </ul>
+          <table>
+            {/* head */}
+            <thead>
+              <tr>
+                <th></th>
+                <th>TF-IDF</th>
+                <th>Count</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {set.terms.map((term, i) => {
+                return (
+                  <tr key={i}>
+                    <th>{i + 1}</th>
+                    <td>{term[0]}</td>
+                    <td>{term[1]}</td>
+                    <Link href={`/search?q=${term[2]}`}>
+                      <td className="link link-primary">{term[2]}</td>
+                    </Link>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </article>
+      </div>
     </div>
   );
 }

@@ -1,19 +1,34 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-interface HeaderProps {
-  query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-  fetchNewQuery: (e: React.FormEvent<HTMLFormElement>) => void;
-}
+export default function Header() {
+  const [query, setQuery] = useState("");
+  const router = useRouter();
 
-export default function Header({
-  query,
-  setQuery,
-  fetchNewQuery,
-}: HeaderProps) {
+  useEffect(() => {
+    if (router.isReady && router.query.q) {
+      setQuery(router.query.q as string);
+    } else {
+      setQuery("");
+    }
+  }, [router]);
+
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
+  };
+
+  const fetchNewQuery = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (query) {
+      router.push({
+        pathname: "/search",
+        query: {
+          q: query,
+        },
+      });
+    }
   };
 
   return (

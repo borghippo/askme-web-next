@@ -19,40 +19,42 @@ export default function Doc() {
     return <Loading />;
   }
   return (
-    <div className="flex justify-center">
-      <article className="prose">
-        <h1>{document.title}</h1>
-        <p>
-          {document.authors.join(", ")} - {document.year}
-        </p>
-        <h2>Summary</h2>
-        <p className="line-clamp-6">{document.summary}</p>
-        <h2>Terms</h2>
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Count</th>
-              <th>TF-IDF</th>
-            </tr>
-          </thead>
-          <tbody>
-            {document.terms.map((term, i) => {
-              return (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  <td>{term[0]}</td>
-                  <td>{term[1]}</td>
-                  <Link href={`/search?q=${term[2]}`}>
-                    <td className="link link-primary">{term[2]}</td>
-                  </Link>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </article>
+    <div>
+      <div className="flex justify-center mt-3">
+        <article className="prose">
+          <h1>{document.title}</h1>
+          <p>
+            {document.authors.join(", ")} - {document.year}
+          </p>
+          <h2>Summary</h2>
+          <p className="line-clamp-6">{document.summary}</p>
+          <h2>Terms</h2>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Count</th>
+                <th>TF-IDF</th>
+              </tr>
+            </thead>
+            <tbody>
+              {document.terms.map((term, i) => {
+                return (
+                  <tr key={i}>
+                    <th>{i + 1}</th>
+                    <Link href={`/search?q=${term[0]}`}>
+                      <td className="link link-primary">{term[0]}</td>
+                    </Link>
+                    <td>{term[1]}</td>
+                    <td>{term[2]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </article>
+      </div>
     </div>
   );
 }
