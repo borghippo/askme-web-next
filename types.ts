@@ -6,6 +6,14 @@ export interface AskMeResultData {
   duration: number;
 }
 
+export interface AskMeRelatedData {
+  query: {
+    doc_id: string;
+    terms: string;
+  };
+  documents: AskMeDocumentMultiple[];
+}
+
 export interface AskMeSet {
   query: {
     index: string;

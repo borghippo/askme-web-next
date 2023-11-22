@@ -7,9 +7,13 @@ import { useRouter } from "next/router";
 
 interface SearchResultProps {
   results: AskMeDocumentMultiple[];
+  relatedDocument?: string;
 }
 
-export default function SearchResultsCards({ results }: SearchResultProps) {
+export default function SearchResultsCards({
+  results,
+  relatedDocument,
+}: SearchResultProps) {
   const [checked, setChecked] = useState<boolean[]>([]);
   const numChecked = checked.filter(Boolean).length;
   const router = useRouter();
@@ -42,7 +46,9 @@ export default function SearchResultsCards({ results }: SearchResultProps) {
       <div className="mb-5 mt-3 flex flex-col gap-y-2">
         {numChecked == 0 ? (
           <p className="text-sm font-medium">
-            {results.length} results returned
+            {relatedDocument
+              ? `related to: ${relatedDocument}`
+              : `${results.length} results returned`}
           </p>
         ) : (
           <div>

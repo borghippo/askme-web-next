@@ -5,6 +5,12 @@ export const getResultsQueryString = (query: string) => {
   return queryString;
 };
 
+export const getRelatedQueryString = (id: string) => {
+  const queryString = (process.env.ASKME_API as string) + `/api/related/${id}`;
+
+  return queryString;
+};
+
 export const getDocQueryString = (id: string) => {
   const queryString = (process.env.ASKME_API as string) + `/api/doc/${id}`;
 
