@@ -57,7 +57,7 @@ export default function Card({
         </div>
         {/* <p className="text-sm text-secondary">J Doe, M Smith, T Davis</p> */}
         <p className="line-clamp-3 text-sm">{result.summary}</p>
-        <div className="mt-1 flex gap-x-2 text-primary">
+        <div className="mt-1 flex gap-x-2 text-secondary">
           <Link
             href={`/doc/${result.identifier}`}
             className="group flex items-center gap-x-1 hover:cursor-pointer"

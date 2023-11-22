@@ -19,12 +19,15 @@ export default function Doc() {
     return <Loading />;
   }
   return (
-    <div className="min-h-screen flex flex-col gap-y-4 p-6">
-      <h1 className="font-bold text-3xl">
-        {`Terms for ${set.documents.length} documents`}
-      </h1>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
+    <div className="flex justify-center">
+      <article className="prose">
+        <h2>{`Terms for ${set.documents.length} documents`}</h2>
+        <ul>
+          {set.documents.map((document, i) => {
+            return <li key={i}>{document.title}</li>;
+          })}
+        </ul>
+        <table>
           {/* head */}
           <thead>
             <tr>
@@ -49,7 +52,7 @@ export default function Doc() {
             })}
           </tbody>
         </table>
-      </div>
+      </article>
     </div>
   );
 }

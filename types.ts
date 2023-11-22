@@ -12,7 +12,7 @@ export interface AskMeSet {
     ids: string;
   };
   documents: AskMeDocumentMultiple[];
-  terms: AskMeTerms[];
+  terms: [tfIdf: number, count: number, name: string][];
 }
 
 export interface AskMeDocumentMultiple {
@@ -35,7 +35,5 @@ export interface AskMeDocumentSingle {
   url: string;
   authors: string[];
   summary: string;
-  terms: AskMeTerms[];
+  terms: [name: number, count: number, tfIdf: number][];
 }
-
-export type AskMeTerms = [tfIdf: number, count: number, name: string];
