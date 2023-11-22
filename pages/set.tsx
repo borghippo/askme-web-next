@@ -1,5 +1,6 @@
 import Loading from "@/components/Loading";
 import { AskMeSet } from "@/types";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR, { Fetcher } from "swr";
 
@@ -40,7 +41,9 @@ export default function Doc() {
                   <th>{i + 1}</th>
                   <td>{term[0]}</td>
                   <td>{term[1]}</td>
-                  <td>{term[2]}</td>
+                  <Link href={`/search?q=${term[2]}`}>
+                    <td className="link link-primary">{term[2]}</td>
+                  </Link>
                 </tr>
               );
             })}
