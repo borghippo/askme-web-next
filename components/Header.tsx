@@ -22,12 +22,16 @@ export default function Header() {
   const fetchNewQuery = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (query) {
-      router.push({
-        pathname: "/search",
-        query: {
-          q: query,
+      router.push(
+        {
+          pathname: "/search",
+          query: {
+            q: query,
+          },
         },
-      });
+        undefined,
+        { shallow: true },
+      );
     }
   };
 
