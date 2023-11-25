@@ -22,8 +22,8 @@ export default function Doc() {
     <div>
       <div className="flex justify-center mt-4">
         <article className="prose">
-          <h1>{document.title}</h1>
-          <p>
+          <h1 className="mb-0">{document.title}</h1>
+          <p className="text-sm">
             {document.authors.join(", ")} - {document.year}
           </p>
           <h2>Summary</h2>
