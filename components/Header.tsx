@@ -39,15 +39,15 @@ export default function Header() {
     <header className="sticky top-0 border-b bg-base-100">
       <div className="flex w-full flex-col items-center p-4 max-sm:space-y-2 sm:flex-row">
         <Link className="shrink-0" href={"/"}>
-          <h1 className="text-4xl font-bold text-primary max-sm:mb-2 sm:text-3xl">
+          <p className="text-3xl font-bold text-primary max-sm:mb-2 sm:text-2xl">
             AskMe Search
-          </h1>
+          </p>
         </Link>
         <form
           onSubmit={(e) => {
             fetchNewQuery(e);
           }}
-          className="join w-full max-w-md sm:ml-4"
+          className="join w-full max-w-sm sm:max-w-md sm:ml-4"
         >
           <input
             type="text"
