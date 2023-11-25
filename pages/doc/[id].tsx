@@ -41,9 +41,14 @@ export default function Doc() {
               {document.terms.map((term, i) => {
                 return (
                   <tr key={i}>
-                    <Link href={`/search?q=${term[0]}`}>
-                      <td className="link link-primary">{term[0]}</td>
-                    </Link>
+                    <td>
+                      <Link
+                        className="link link-primary"
+                        href={`/search?q=${term[0]}`}
+                      >
+                        {term[0]}
+                      </Link>
+                    </td>
                     <td>{term[1]}</td>
                     <td>{term[2]}</td>
                   </tr>

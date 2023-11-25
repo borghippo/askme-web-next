@@ -45,9 +45,14 @@ export default function Doc() {
                     <th>{i + 1}</th>
                     <td>{term[0]}</td>
                     <td>{term[1]}</td>
-                    <Link href={`/search?q=${term[2]}`}>
-                      <td className="link link-primary">{term[2]}</td>
-                    </Link>
+                    <td>
+                      <Link
+                        className="link link-primary"
+                        href={`/search?q=${term[2]}`}
+                      >
+                        {term[2]}
+                      </Link>
+                    </td>
                   </tr>
                 );
               })}
