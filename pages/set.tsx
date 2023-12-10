@@ -20,7 +20,7 @@ export default function Doc() {
   }
   return (
     <div>
-      <div className="flex justify-center mt-4">
+      <div className="mt-4 flex justify-center">
         <article className="prose">
           <h2>{`Terms for ${set.documents.length} documents`}</h2>
           <ul>
@@ -47,7 +47,7 @@ export default function Doc() {
                     <td>{term[1]}</td>
                     <td>
                       <Link
-                        className="link link-primary"
+                        className="link-primary link"
                         href={`/search?q=${term[2]}`}
                       >
                         {term[2]}

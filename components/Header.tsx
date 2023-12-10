@@ -47,16 +47,16 @@ export default function Header() {
           onSubmit={(e) => {
             fetchNewQuery(e);
           }}
-          className="join w-full max-w-sm sm:max-w-md sm:ml-4"
+          className="join w-full max-w-sm sm:ml-4 sm:max-w-md"
         >
           <input
             type="text"
             value={query}
             placeholder="Search…"
             onChange={(e) => handleQueryChange(e)}
-            className="input input-bordered input-sm flex-grow join-item"
+            className="input join-item input-bordered input-sm flex-grow"
           />
-          <button type="submit" className="btn btn-square btn-sm join-item">
+          <button type="submit" className="btn btn-square join-item btn-sm">
             <MagnifyingGlassIcon className="h-5 w-5" />
           </button>
         </form>

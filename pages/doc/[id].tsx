@@ -20,7 +20,7 @@ export default function Doc() {
   }
   return (
     <div>
-      <div className="flex justify-center mt-4">
+      <div className="mt-4 flex justify-center">
         <article className="prose">
           <h1 className="mb-0">{document.title}</h1>
           <p className="text-sm">
@@ -43,7 +43,7 @@ export default function Doc() {
                   <tr key={i}>
                     <td>
                       <Link
-                        className="link link-primary"
+                        className="link-primary link"
                         href={`/search?q=${term[0]}`}
                       >
                         {term[0]}

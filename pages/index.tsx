@@ -7,7 +7,11 @@ export default function Home() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>, query: string) => {
+  const handleSubmit = (
+    e: React.FormEvent<HTMLFormElement>,
+    query: string,
+    domains: string,
+  ) => {
     e.preventDefault();
     if (query && router && !loading) {
       setLoading(true);
@@ -15,6 +19,7 @@ export default function Home() {
         pathname: "/search",
         query: {
           q: query,
+          ...(domains && { domains: domains }),
         },
       });
     }
