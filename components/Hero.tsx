@@ -2,9 +2,10 @@ import {
   AdjustmentsHorizontalIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { domains } from "@/config/domains";
 import WaveGraphic from "./WaveGraphic";
+import { useSettingsStore } from "@/store/settingsStore";
 
 interface HeroProps {
   handleSubmit: (
@@ -17,29 +18,17 @@ interface HeroProps {
 
 export default function Hero({ handleSubmit, loading }: HeroProps) {
   const [query, setQuery] = useState("");
-  const [domainFilter, setDomainFilter] = useState<boolean[]>([]);
-
-  useEffect(() => {
-    setDomainFilter(new Array(domains.length).fill(false));
-  }, []);
+  const settings = useSettingsStore();
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  const handleCheck = (index: number) => {
-    setDomainFilter((prev) => {
-      const newChecked = [...prev];
-      newChecked[index] = !prev[index];
-      return newChecked;
-    });
-  };
-
   const filteredDomainsToString = (): string => {
     const filteredDomains: string[] = [];
-    domainFilter.forEach((active, i) => {
-      if (active) {
-        filteredDomains.push(domains[i]);
+    settings.domains.forEach((domain, i) => {
+      if (domain.enabled) {
+        filteredDomains.push(domain.name);
       }
     });
     const filteredDomainsString = filteredDomains.toString();
@@ -109,8 +98,8 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
                     <label className="label justify-start gap-x-4">
                       <input
                         type="checkbox"
-                        checked={!!domainFilter[i]}
-                        onChange={() => handleCheck(i)}
+                        checked={!!settings.domains[i].enabled}
+                        onChange={() => settings.toggleDomain(i)}
                         className="checkbox checkbox-sm"
                       />
                       <span className="label-text">{domain}</span>
@@ -118,6 +107,22 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
                   </li>
                 );
               })}
+            </ul>
+          </li>
+          <li>
+            <h2 className="menu-title">Display Settings</h2>
+            <ul>
+              <li>
+                <label className="label justify-start gap-x-4">
+                  <input
+                    type="checkbox"
+                    checked={!!settings.devMode}
+                    onChange={() => settings.toggleDevMode()}
+                    className="checkbox checkbox-sm"
+                  />
+                  <span className="label-text">Developer Mode</span>
+                </label>
+              </li>
             </ul>
           </li>
         </ul>

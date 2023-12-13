@@ -20,7 +20,7 @@ export default function Doc() {
   }
   return (
     <div>
-      <div className="mt-4 flex justify-center">
+      <div className="mt-6 flex justify-center">
         <article className="prose">
           <h2>{`Terms for ${set.documents.length} documents`}</h2>
           <ul>
