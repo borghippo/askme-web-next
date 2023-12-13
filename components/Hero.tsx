@@ -20,7 +20,7 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
   const [domainFilter, setDomainFilter] = useState<boolean[]>([]);
 
   useEffect(() => {
-    setDomainFilter(new Array(domainFilter.length).fill(false));
+    setDomainFilter(new Array(domains.length).fill(false));
   }, []);
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,12 +36,15 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
   };
 
   const filteredDomainsToString = (): string => {
-    const filteredDomains = domainFilter
-      .filter((domain) => domain == true)
-      .map((_, i) => domains[i])
-      .toString();
+    const filteredDomains: string[] = [];
+    domainFilter.forEach((active, i) => {
+      if (active) {
+        filteredDomains.push(domains[i]);
+      }
+    });
+    const filteredDomainsString = filteredDomains.toString();
 
-    return filteredDomains;
+    return filteredDomainsString;
   };
 
   return (

@@ -9,10 +9,11 @@ const fetcher: Fetcher<AskMeResultData, string> = (q) =>
 
 export default function Search() {
   const router = useRouter();
-  const { q, type } = router.query;
+  const { q, domains, type } = router.query;
   const typeString = type ? `&type=${type}` : "";
+  const domainsString = domains ? `&domains=${domains}` : "";
   const { data } = useSWR(
-    q ? `/api/results?q=${q}${typeString}` : null,
+    q ? `/api/results?q=${q}${domainsString}${typeString}` : null,
     fetcher,
     {
       revalidateOnFocus: false,
