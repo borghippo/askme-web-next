@@ -43,8 +43,8 @@ export default function Doc() {
                   <tr key={i}>
                     <td>
                       <Link
-                        className="link-primary link"
-                        href={`/search?q=${term[0]}`}
+                        className="link link-primary"
+                        href={`/search?q=${term[0]}&type=exact`}
                       >
                         {term[0]}
                       </Link>

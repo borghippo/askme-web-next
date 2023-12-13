@@ -1,6 +1,11 @@
-export const getResultsQueryString = (query: string) => {
+export const getResultsQueryString = (
+  query: string,
+  type: string | undefined,
+) => {
+  const typeString = type ? `&type=${type}` : "";
   const queryString =
-    (process.env.ASKME_API as string) + `/api/question?query=${query}`;
+    (process.env.ASKME_API as string) +
+    `/api/question?query=${query}${typeString}`;
 
   return queryString;
 };

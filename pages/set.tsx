@@ -47,8 +47,8 @@ export default function Doc() {
                     <td>{term[1]}</td>
                     <td>
                       <Link
-                        className="link-primary link"
-                        href={`/search?q=${term[2]}`}
+                        className="link link-primary"
+                        href={`/search?q=${term[2]}&type=exact`}
                       >
                         {term[2]}
                       </Link>

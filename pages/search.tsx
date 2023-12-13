@@ -9,10 +9,15 @@ const fetcher: Fetcher<AskMeResultData, string> = (q) =>
 
 export default function Search() {
   const router = useRouter();
-  const { q } = router.query;
-  const { data } = useSWR(q ? `/api/results?q=${q}` : null, fetcher, {
-    revalidateOnFocus: false,
-  });
+  const { q, type } = router.query;
+  const typeString = type ? `&type=${type}` : "";
+  const { data } = useSWR(
+    q ? `/api/results?q=${q}${typeString}` : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    },
+  );
 
   return (
     <div>
