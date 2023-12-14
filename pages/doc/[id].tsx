@@ -1,4 +1,5 @@
 import Loading from "@/components/Loading";
+import { useSettingsStore } from "@/store/settingsStore";
 import { AskMeDocumentSingle } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,6 +9,7 @@ const fetcher: Fetcher<AskMeDocumentSingle, string> = (q) =>
   fetch(q).then((res) => res.json());
 
 export default function Doc() {
+  const settings = useSettingsStore();
   const router = useRouter();
   const { id } = router.query;
 
@@ -20,8 +22,8 @@ export default function Doc() {
   }
   return (
     <div>
-      <div className="mt-6 flex justify-center">
-        <article className="prose">
+      <div className="mt-6 flex justify-center px-3">
+        <article className="prose prose-h2:mt-8">
           <h1 className="mb-0">{document.title}</h1>
           <p className="text-sm">
             {document.authors.join(", ")} - {document.year}
@@ -29,33 +31,50 @@ export default function Doc() {
           <h2>Summary</h2>
           <p className="line-clamp-6">{document.summary}</p>
           <h2>Terms</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Count</th>
-                <th>TF-IDF</th>
-              </tr>
-            </thead>
-            <tbody>
+          {settings.devMode ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Count</th>
+                  <th>TF-IDF</th>
+                </tr>
+              </thead>
+              <tbody>
+                {document.terms.map((term, i) => {
+                  return (
+                    <tr key={i}>
+                      <td>
+                        <Link
+                          className="link link-primary"
+                          href={`/search?q=${term[0]}&type=exact`}
+                        >
+                          {term[0]}
+                        </Link>
+                      </td>
+                      <td>{term[1]}</td>
+                      <td>{term[2]}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-6 pb-2">
               {document.terms.map((term, i) => {
                 return (
-                  <tr key={i}>
-                    <td>
-                      <Link
-                        className="link link-primary"
-                        href={`/search?q=${term[0]}&type=exact`}
-                      >
-                        {term[0]}
-                      </Link>
-                    </td>
-                    <td>{term[1]}</td>
-                    <td>{term[2]}</td>
-                  </tr>
+                  <div key={i}>
+                    <Link
+                      className="link link-primary"
+                      href={`/search?q=${term[0]}&type=exact`}
+                    >
+                      {term[0]}
+                    </Link>
+                  </div>
                 );
               })}
-            </tbody>
-          </table>
+            </div>
+          )}
         </article>
       </div>
     </div>

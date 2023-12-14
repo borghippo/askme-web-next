@@ -43,7 +43,7 @@ export default function Card({
               {result.url}
             </a>
           </div>
-          <a href={result.url}>
+          <a href={result.url} target="_blank">
             <h2 className="line-clamp-2 text-lg font-medium text-primary group-hover:underline">
               {result.title}
             </h2>
