@@ -1,5 +1,5 @@
 import { AskMeDocumentMultiple } from "@/types";
-import { BeakerIcon, CogIcon } from "@heroicons/react/24/outline";
+import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import NoResults from "./NoResults";
@@ -53,10 +53,8 @@ export default function SearchResultsCards({
         ) : (
           <div>
             <button onClick={() => fetchSelectedSet()} className="btn">
-              <BeakerIcon className="h-6 w-6" />
-              {`Process ${
-                numChecked == 1 ? "Document" : `${numChecked} Documents`
-              }`}
+              <Square3Stack3DIcon className="h-6 w-6" />
+              View Document Set
             </button>
           </div>
         )}

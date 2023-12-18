@@ -27,7 +27,13 @@ export default function Doc() {
           <h2>{"Documents selected:"}</h2>
           <ol>
             {set.documents.map((document, i) => {
-              return <li key={i}>{document.title}</li>;
+              return (
+                <li key={i}>
+                  <Link href={`/doc/${document.identifier}`}>
+                    {document.title}
+                  </Link>
+                </li>
+              );
             })}
           </ol>
           <h2>Terms</h2>

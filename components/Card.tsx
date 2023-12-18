@@ -39,7 +39,11 @@ export default function Card({
       <div className="flex flex-col">
         <div className="group">
           <div className="flex gap-x-2">
-            <a href={result.url} className="line-clamp-1 text-sm">
+            <a
+              href={result.url}
+              target="_blank"
+              className="line-clamp-1 text-sm"
+            >
               {result.url}
             </a>
           </div>

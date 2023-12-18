@@ -25,6 +25,9 @@ export default function Doc() {
       <div className="mt-6 flex justify-center px-3">
         <article className="prose prose-h2:mt-8">
           <h1 className="mb-0">{document.title}</h1>
+          <a href={document.url} target="_blank" className="line-clamp-1">
+            {document.url}
+          </a>
           <p className="text-sm">
             {document.authors.join(", ")} - {document.year}
           </p>
