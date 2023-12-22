@@ -1,21 +1,40 @@
+import ErrorMessage from "@/components/ErrorMessage";
 import Loading from "@/components/Loading";
 import { useSettingsStore } from "@/store/settingsStore";
-import { AskMeSet } from "@/types";
+import { AskMeError, AskMeSet } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR, { Fetcher } from "swr";
 
-const fetcher: Fetcher<AskMeSet, string> = (q) =>
-  fetch(q).then((res) => res.json());
+const fetcher: Fetcher<AskMeSet, string> = async (url) => {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    const { detail } = await res.json();
+    const status = res.status;
+    const error: AskMeError = { detail, status };
+    throw error;
+  }
+
+  return res.json();
+};
 
 export default function Doc() {
   const settings = useSettingsStore();
   const router = useRouter();
   const { ids } = router.query;
 
-  const { data: set } = useSWR(ids ? `/api/set?ids=${ids}` : null, fetcher, {
-    revalidateOnFocus: false,
-  });
+  const { data: set, error } = useSWR(
+    ids ? `/api/set?ids=${ids}` : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  if (error) {
+    return <ErrorMessage status={error.status} detail={error.detail} />;
+  }
 
   if (!set) {
     return <Loading />;

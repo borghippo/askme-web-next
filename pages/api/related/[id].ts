@@ -12,5 +12,6 @@ export default async function handler(
   const { id } = req.query;
   const results = await fetch(getRelatedQueryString(id as string));
   const data = await results.json();
-  res.status(200).json(data);
+  const apiStatus = results.status;
+  res.status(apiStatus).json(data);
 }

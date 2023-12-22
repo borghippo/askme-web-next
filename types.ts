@@ -45,3 +45,8 @@ export interface AskMeDocumentSingle {
   summary: string;
   terms: [name: number, count: number, tfIdf: number][];
 }
+
+export interface AskMeError {
+  detail: string;
+  status: number;
+}

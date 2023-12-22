@@ -1,21 +1,40 @@
+import ErrorMessage from "@/components/ErrorMessage";
 import Loading from "@/components/Loading";
 import { useSettingsStore } from "@/store/settingsStore";
-import { AskMeDocumentSingle } from "@/types";
+import { AskMeDocumentSingle, AskMeError } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR, { Fetcher } from "swr";
 
-const fetcher: Fetcher<AskMeDocumentSingle, string> = (q) =>
-  fetch(q).then((res) => res.json());
+const fetcher: Fetcher<AskMeDocumentSingle, string> = async (url) => {
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    const { detail } = await res.json();
+    const status = res.status;
+    const error: AskMeError = { detail, status };
+    throw error;
+  }
+
+  return res.json();
+};
 
 export default function Doc() {
   const settings = useSettingsStore();
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: document } = useSWR(id ? `/api/doc/${id}` : null, fetcher, {
-    revalidateOnFocus: false,
-  });
+  const { data: document, error } = useSWR(
+    id ? `/api/doc/${id}` : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  if (error) {
+    return <ErrorMessage status={error.status} detail={error.detail} />;
+  }
 
   if (!document) {
     return <Loading />;
