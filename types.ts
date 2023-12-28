@@ -4,6 +4,15 @@ export interface AskMeResultData {
   };
   documents: AskMeDocumentMultiple[];
   duration: number;
+  pages: AskMePages;
+}
+
+export interface AskMePages {
+  self: number;
+  next?: number;
+  previous?: number;
+  first?: number;
+  last?: number;
 }
 
 export interface AskMeRelatedData {

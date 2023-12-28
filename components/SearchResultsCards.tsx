@@ -43,7 +43,7 @@ export default function SearchResultsCards({
 
   return (
     <div className="mx-auto w-full px-3 md:pl-32 lg:pl-[200px]">
-      <div className="mb-5 mt-3 flex flex-col gap-y-2">
+      <div className="mb-5 flex flex-col gap-y-2">
         {numChecked == 0 ? (
           <p className="text-sm font-medium">
             {relatedDocument

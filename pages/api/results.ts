@@ -6,10 +6,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<AskMeResultData>,
 ) {
-  const { q, domains, type } = req.query;
+  const { q, page, domains, type } = req.query;
   const results = await fetch(
     getResultsQueryString(
       q as string,
+      page as string,
       domains as string | undefined,
       type as string | undefined,
     ),
