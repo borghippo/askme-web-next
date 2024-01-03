@@ -1,18 +1,19 @@
-import ErrorMessage from "@/components/ErrorMessage";
 import Loading from "@/components/Loading";
-import { useSettingsStore } from "@/store/settingsStore";
-import { AskMeError, AskMeSet } from "@/types";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import useSWR, { Fetcher } from "swr";
+import { useRouter } from "next/router";
+import ErrorMessage from "@/components/ErrorMessage";
+import { AskMeError, AskMeSet } from "@/types";
+import { useSettingsStore } from "@/store/settingsStore";
+import Link from "next/link";
+
 
 const fetcher: Fetcher<AskMeSet, string> = async (url) => {
   const res = await fetch(url);
 
   if (!res.ok) {
-    const { detail } = await res.json();
+    const { message, stack, details } = await res.json();
     const status = res.status;
-    const error: AskMeError = { detail, status };
+    const error: AskMeError = { message, status, stack, details };
     throw error;
   }
 
@@ -33,12 +34,14 @@ export default function Doc() {
   );
 
   if (error) {
-    return <ErrorMessage status={error.status} detail={error.detail} />;
+    return <ErrorMessage status={error.status} message={error.message}
+                         stack={error.stack} details={error.details}/>;
   }
 
   if (!set) {
     return <Loading />;
   }
+
   return (
     <div>
       <div className="mt-6 flex justify-center px-3">

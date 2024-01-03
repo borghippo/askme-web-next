@@ -1,18 +1,20 @@
-import ErrorMessage from "@/components/ErrorMessage";
 import Loading from "@/components/Loading";
+import useSWR, { Fetcher } from "swr";
+import { useRouter } from "next/router";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useSettingsStore } from "@/store/settingsStore";
 import { AskMeDocumentSingle, AskMeError } from "@/types";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import useSWR, { Fetcher } from "swr";
+import Head from "next/head";
 
 const fetcher: Fetcher<AskMeDocumentSingle, string> = async (url) => {
   const res = await fetch(url);
 
   if (!res.ok) {
-    const { detail } = await res.json();
+    const { message, stack, details } = await res.json();
     const status = res.status;
-    const error: AskMeError = { detail, status };
+    const error: AskMeError = { message, status, stack, details };
+    //console.log(error)
     throw error;
   }
 
@@ -33,13 +35,15 @@ export default function Doc() {
   );
 
   if (error) {
-    return <ErrorMessage status={error.status} detail={error.detail} />;
+    return <ErrorMessage status={error.status} message={error.message}
+                         stack={error.stack} details={error.details}/>;
   }
 
   if (!document) {
     return <Loading />;
   }
   return (
+    <>
     <div>
       <div className="mt-6 flex justify-center px-3">
         <article className="prose prose-h2:mt-8">
@@ -100,5 +104,6 @@ export default function Doc() {
         </article>
       </div>
     </div>
+    </>
   );
 }

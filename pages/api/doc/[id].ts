@@ -11,6 +11,7 @@ export default async function handler(
 ) {
   const { id } = req.query;
   const results = await fetch(getDocQueryString(id as string));
+  //console.log(results)
   const document = await results.json();
   const apiStatus = results.status;
   res.status(apiStatus).json(document);

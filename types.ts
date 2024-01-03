@@ -47,6 +47,8 @@ export interface AskMeDocumentSingle {
 }
 
 export interface AskMeError {
-  detail: string;
+  message: string;
   status: number;
+  stack: string[];
+  details: any;
 }

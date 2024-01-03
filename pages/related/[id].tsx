@@ -1,17 +1,17 @@
-import SearchResultsCards from "@/components/SearchResultsCards";
 import Loading from "@/components/Loading";
-import { AskMeError, AskMeRelatedData } from "@/types";
 import useSWR, { Fetcher } from "swr";
 import { useRouter } from "next/router";
 import ErrorMessage from "@/components/ErrorMessage";
+import { AskMeError, AskMeRelatedData } from "@/types";
+import SearchResultsCards from "@/components/SearchResultsCards";
 
 const fetcher: Fetcher<AskMeRelatedData, string> = async (url) => {
   const res = await fetch(url);
 
   if (!res.ok) {
-    const { detail } = await res.json();
+    const { message, stack, details } = await res.json();
     const status = res.status;
-    const error: AskMeError = { detail, status };
+    const error: AskMeError = { message, status, stack, details };
     throw error;
   }
 
@@ -27,8 +27,9 @@ export default function Related() {
   });
 
   if (error) {
-    return <ErrorMessage status={error.status} detail={error.detail} />;
-  }
+    return <ErrorMessage status={error.status} message={error.message}
+                         stack={error.stack} details={error.details}/>;
+   }
 
   return (
     <div>

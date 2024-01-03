@@ -9,6 +9,7 @@ export default async function handler(
   const { ids } = req.query;
   const result = await fetch(getSetQueryString(ids as string));
   const set = await result.json();
+  //console.log(set)
   const apiStatus = result.status;
   res.status(apiStatus).json(set);
 }
