@@ -27,7 +27,7 @@ export default function Card({
   };
 
   return (
-    <div className="mb-6 flex max-w-xl flex-row gap-x-4">
+    <div className="mb-6 flex max-w-3xl flex-row gap-x-4">
       <label className="mt-1 hover:cursor-pointer">
         <input
           type="checkbox"

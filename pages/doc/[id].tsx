@@ -46,17 +46,17 @@ export default function Doc() {
     <>
     <div>
       <div className="mt-6 flex justify-center px-3">
-        <article className="prose prose-h2:mt-8">
-          <h1 className="mb-0">{document.title}</h1>
+        <article className="prose prose-h2:mt-8 max-w-4xl">
+          <h1 className="mb-0 text-3xl">{document.title}</h1>
           <a href={document.url} target="_blank" className="line-clamp-1">
             {document.url}
           </a>
           <p className="text-sm">
             {document.authors.join(", ")} - {document.year}
           </p>
-          <h2>Summary</h2>
+          <h2 className="text-xl">Summary</h2>
           <p className="line-clamp-6">{document.summary}</p>
-          <h2>Terms</h2>
+          <h2 className="text-xl">Terms</h2>
           {settings.devMode ? (
             <table>
               <thead>
@@ -67,7 +67,7 @@ export default function Doc() {
                 </tr>
               </thead>
               <tbody>
-                {document.terms.map((term, i) => {
+                {document.terms.slice(0,25).map((term, i) => {
                   return (
                     <tr key={i}>
                       <td>
@@ -86,8 +86,8 @@ export default function Doc() {
               </tbody>
             </table>
           ) : (
-            <div className="flex flex-wrap justify-center gap-6 pb-2">
-              {document.terms.map((term, i) => {
+            <div className="flex flex-wrap justify-left leading-5 gap-4 pb-2">
+              {document.terms.slice(0,25).map((term, i) => {
                 return (
                   <div key={i}>
                     <Link

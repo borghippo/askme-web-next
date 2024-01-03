@@ -45,7 +45,7 @@ export default function Doc() {
   return (
     <div>
       <div className="mt-6 flex justify-center px-3">
-        <article className="prose">
+        <article className="prose max-w-4xl">
           <h2>{"Documents selected:"}</h2>
           <ol>
             {set.documents.map((document, i) => {
@@ -70,7 +70,7 @@ export default function Doc() {
                 </tr>
               </thead>
               <tbody>
-                {set.terms.map((term, i) => {
+                {set.terms.slice(0,50).map((term, i) => {
                   return (
                     <tr key={i}>
                       <th>{i + 1}</th>
@@ -90,8 +90,8 @@ export default function Doc() {
               </tbody>
             </table>
           ) : (
-            <div className="flex flex-wrap justify-center gap-6 pb-2">
-              {set.terms.map((term, i) => {
+            <div className="flex flex-wrap justify-left gap-4 ml-4 leading-5 pb-2">
+              {set.terms.slice(0,50).map((term, i) => {
                 return (
                   <div key={i}>
                     <Link
