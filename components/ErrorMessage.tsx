@@ -13,7 +13,7 @@ export default function ErrorMessage({ status, message, stack, details }:
 
   return (
     <div>
-    {!settings.devMode ? (
+    {settings.devMode ? (
       <div className="p-5">
         <p className="text-xl text-red-800 font-bold pb-5">An exception occurred</p>
         <table class="border-collapse mb-5">
