@@ -1,17 +1,12 @@
-import Loading from "@/components/Loading";
 import useSWR, { Fetcher } from "swr";
 import { useRouter } from "next/router";
+import Loading from "@/components/Loading";
 import ErrorMessage from "@/components/ErrorMessage";
 import { AskMeError, AskMeResultData } from "@/types";
 import SearchResultsCards from "@/components/SearchResultsCards";
-import { fetcher } from "@/utils/fetcher";
 import Pagination from "@/components/Pagination";
 
-// using the import is problematic because it does not use AskeMeResultData
-// but AskeMeSet, th eonly reason it works in because type checking is not
-// happening
 
-/*
 const fetcher: Fetcher<AskMeResultData, string> = async (url) => {
   const res = await fetch(url);
   if (!res.ok) {
@@ -22,7 +17,7 @@ const fetcher: Fetcher<AskMeResultData, string> = async (url) => {
   }
   return res.json();
 };
-*/
+
 
 export default function Search()
 {
