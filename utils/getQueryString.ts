@@ -1,3 +1,5 @@
+// Generating the query strings that are sent off to the AskMe API.
+
 export const getResultsQueryString = (
   query: string,
   domains: string | undefined,
@@ -8,25 +10,17 @@ export const getResultsQueryString = (
   const queryString =
     (process.env.ASKME_API as string) +
     `/api/question?query=${query}${domainsString}${typeString}`;
-
   return queryString;
 };
 
 export const getRelatedQueryString = (id: string) => {
-  const queryString = (process.env.ASKME_API as string) + `/api/related/${id}`;
-
-  return queryString;
+  return (process.env.ASKME_API as string) + `/api/related/${id}`;
 };
 
 export const getDocQueryString = (id: string) => {
-  const queryString = (process.env.ASKME_API as string) + `/api/doc/${id}`;
-
-  return queryString;
+  return (process.env.ASKME_API as string) + `/api/doc/${id}`;
 };
 
 export const getSetQueryString = (ids: string) => {
-  const queryString =
-    (process.env.ASKME_API as string) + `/api/set/?ids=${ids}`;
-
-  return queryString;
+  return (process.env.ASKME_API as string) + `/api/set/?ids=${ids}`;
 };

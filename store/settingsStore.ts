@@ -1,4 +1,5 @@
 import { domains } from "@/config/domains";
+import { termsPerDocument, termsPerDocumentSet } from "@/config/settings";
 import { create } from "zustand";
 
 interface SettingsState {
@@ -6,6 +7,10 @@ interface SettingsState {
   toggleDomain: (index: number) => void;
   devMode: boolean;
   toggleDevMode: () => void;
+  termsPerDocument: number;
+  setTermsPerDocument: (count: number) => void;
+  termsPerDocumentSet: number;
+  setTermsPerDocumentSet: (count: number) => void;
 }
 
 interface DomainSetting {
@@ -24,6 +29,7 @@ const getInitialDomains = () => {
 };
 
 export const useSettingsStore = create<SettingsState>()((set) => ({
+
   domains: getInitialDomains(),
   toggleDomain: (index: number) =>
     set((state) => ({
@@ -36,9 +42,23 @@ export const useSettingsStore = create<SettingsState>()((set) => ({
         ...state.domains.slice(index + 1),
       ],
     })),
+
   devMode: false,
   toggleDevMode: () =>
     set((state) => ({
       devMode: !state.devMode,
     })),
+
+  termsPerDocument: termsPerDocument,
+  setTermsPerDocument: (count: number) =>
+    set((state) => ({
+      termsPerDocument: count,
+    })),
+
+  termsPerDocumentSet: termsPerDocumentSet,
+  setTermsPerDocumentSet: (count: number) =>
+    set((state) => ({
+      termsPerDocumentSet: count,
+    })),
+
 }));

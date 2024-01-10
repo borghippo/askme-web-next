@@ -3,9 +3,13 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { domains } from "@/config/domains";
 import WaveGraphic from "./WaveGraphic";
+
+import { getStyles } from "@/config/styles";
+import { domains } from "@/config/domains";
+import Settings from "@/components/Settings";
 import { useSettingsStore } from "@/store/settingsStore";
+
 
 interface HeroProps {
   handleSubmit: (
@@ -16,9 +20,12 @@ interface HeroProps {
   loading: boolean;
 }
 
-export default function Hero({ handleSubmit, loading }: HeroProps) {
+
+export default function Hero({ handleSubmit, loading }: HeroProps)
+{
   const [query, setQuery] = useState("");
   const settings = useSettingsStore();
+  const styles = getStyles();
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -32,7 +39,6 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
       }
     });
     const filteredDomainsString = filteredDomains.toString();
-
     return filteredDomainsString;
   };
 
@@ -47,22 +53,17 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
                 AskMe Search
               </h1>
               <p className="py-6 text-center">
-                Provident cupiditate voluptatem et in. Quaerat fugiat ut
-                assumenda excepturi exercitationem quasi. In deleniti eaque aut
-                repudiandae et a id nisi.
+                Prototype search engine that provides a more structured way of
+                exploring a small database of scientific articles.
               </p>
               <form
-                onSubmit={(e) =>
-                  handleSubmit(e, query, filteredDomainsToString())
-                }
-                className="join"
-              >
+                onSubmit={(e) => handleSubmit(e, query, filteredDomainsToString())}
+                className="join">
                 <input
                   type="text"
                   placeholder="Search…"
                   onChange={(e) => handleQueryChange(e)}
-                  className="input join-item input-bordered w-full"
-                />
+                  className="input join-item input-bordered w-full"/>
                 <button type="submit" className="btn btn-square join-item">
                   {!loading ? (
                     <MagnifyingGlassIcon className="h-6 w-6" />
@@ -72,8 +73,7 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
                 </button>
                 <label
                   htmlFor="settings-drawer"
-                  className="btn btn-square join-item drawer-button"
-                >
+                  className="btn btn-square join-item drawer-button">
                   <AdjustmentsHorizontalIcon className="h-6 w-6" />
                 </label>
               </form>
@@ -82,51 +82,7 @@ export default function Hero({ handleSubmit, loading }: HeroProps) {
           <WaveGraphic />
         </div>
       </div>
-      <div className="drawer-side">
-        <label
-          htmlFor="settings-drawer"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
-          <li>
-            <h2 className="menu-title">Domain Filters</h2>
-            <ul>
-              {domains.map((domain, i) => {
-                return (
-                  <li key={i}>
-                    <label className="label justify-start gap-x-4">
-                      <input
-                        type="checkbox"
-                        checked={!!settings.domains[i].enabled}
-                        onChange={() => settings.toggleDomain(i)}
-                        className="checkbox checkbox-sm"
-                      />
-                      <span className="label-text">{domain}</span>
-                    </label>
-                  </li>
-                );
-              })}
-            </ul>
-          </li>
-          <li>
-            <h2 className="menu-title">Display Settings</h2>
-            <ul>
-              <li>
-                <label className="label justify-start gap-x-4">
-                  <input
-                    type="checkbox"
-                    checked={!!settings.devMode}
-                    onChange={() => settings.toggleDevMode()}
-                    className="checkbox checkbox-sm"
-                  />
-                  <span className="label-text">Developer Mode</span>
-                </label>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+      <Settings />
     </div>
   );
 }

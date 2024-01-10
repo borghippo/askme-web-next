@@ -1,40 +1,38 @@
-import Loading from "@/components/Loading";
 import useSWR, { Fetcher } from "swr";
 import { useRouter } from "next/router";
-import ErrorMessage from "@/components/ErrorMessage";
-import { useSettingsStore } from "@/store/settingsStore";
-import { AskMeDocumentSingle, AskMeError } from "@/types";
 import Link from "next/link";
 import Head from "next/head";
 
+import { AskMeDocumentSingle, AskMeError } from "@/types";
+import Loading from "@/components/Loading";
+import ErrorMessage from "@/components/ErrorMessage";
+import Term from "@/components/Term";
+import { useSettingsStore } from "@/store/settingsStore";
+
+
 const fetcher: Fetcher<AskMeDocumentSingle, string> = async (url) => {
   const res = await fetch(url);
-
   if (!res.ok) {
     const { message, stack, details } = await res.json();
     const status = res.status;
     const error: AskMeError = { message, status, stack, details };
-    //console.log(error)
     throw error;
   }
-
   return res.json();
 };
 
-export default function Doc() {
+
+export default function Document()
+{
   const settings = useSettingsStore();
   const router = useRouter();
   const { id } = router.query;
 
   const { data: document, error } = useSWR(
-    id ? `/api/doc/${id}` : null,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-    },
-  );
+    id ? `/api/doc/${id}` : null, fetcher, { revalidateOnFocus: false } );
 
   if (error) {
+    console.log('error:', error)
     return <ErrorMessage status={error.status} message={error.message}
                          stack={error.stack} details={error.details}/>;
   }
@@ -42,8 +40,12 @@ export default function Doc() {
   if (!document) {
     return <Loading />;
   }
+
   return (
     <>
+    <Head>
+      <title>AskMe document</title>
+    </Head>
     <div>
       <div className="mt-6 flex justify-center px-3">
         <article className="prose prose-h2:mt-8 max-w-4xl">
@@ -61,43 +63,23 @@ export default function Doc() {
             <table>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Count</th>
+                  <th></th>
                   <th>TF-IDF</th>
+                  <th>Freq</th>
+                  <th>Name</th>
                 </tr>
               </thead>
               <tbody>
+                { /* the Term needs a unique key because it's a list */ }
                 {document.terms.slice(0,25).map((term, i) => {
-                  return (
-                    <tr key={i}>
-                      <td>
-                        <Link
-                          className="link link-primary"
-                          href={`/search?q=${term[0]}&type=exact`}
-                        >
-                          {term[0]}
-                        </Link>
-                      </td>
-                      <td>{term[1]}</td>
-                      <td>{term[2]}</td>
-                    </tr>
-                  );
+                  return (<Term key={i} index={i} term={term} asRow={true}/>);
                 })}
               </tbody>
             </table>
           ) : (
             <div className="flex flex-wrap justify-left leading-5 gap-4 pb-2">
-              {document.terms.slice(0,25).map((term, i) => {
-                return (
-                  <div key={i}>
-                    <Link
-                      className="link link-primary"
-                      href={`/search?q=${term[0]}&type=exact`}
-                    >
-                      {term[0]}
-                    </Link>
-                  </div>
-                );
+              {document.terms.slice(0,settings.termsPerDocument).map((term, i) => {
+                return (<Term key={i} index={i} term={term} asRow={false}/>);
               })}
             </div>
           )}
@@ -106,4 +88,5 @@ export default function Doc() {
     </div>
     </>
   );
+
 }

@@ -1,4 +1,5 @@
 import { useSettingsStore } from "@/store/settingsStore";
+import { getStyles } from "@/config/styles";
 
 export default function ErrorMessage({ status, message, stack, details }:
 {
@@ -9,6 +10,7 @@ export default function ErrorMessage({ status, message, stack, details }:
 }) 
 {
   const settings = useSettingsStore();
+  const styles = getStyles();
   const stack_last = stack ? stack.slice(-1)[0] : '';
 
   return (
@@ -16,18 +18,18 @@ export default function ErrorMessage({ status, message, stack, details }:
     {settings.devMode ? (
       <div className="p-5">
         <p className="text-xl text-red-800 font-bold pb-5">An exception occurred</p>
-        <table class="border-collapse mb-5">
+        <table className="border-collapse mb-5">
           <tr>
-            <td class="border border-slate-300 p-2">Status code</td>
-            <td class="border border-slate-300 p-2">{status}</td>
+            <td className="border border-slate-300 p-2">Status code</td>
+            <td className="border border-slate-300 p-2">{status}</td>
           </tr>
           <tr>
-            <td class="border border-slate-300 p-2">Message</td>
-            <td class="border border-slate-300 p-2">{message}</td>
+            <td className="border border-slate-300 p-2">Message</td>
+            <td className="border border-slate-300 p-2">{message}</td>
           </tr>
           <tr>
-            <td class="border border-slate-300 p-2">Error</td>
-            <td class="border border-slate-300 p-2">{stack_last}</td>
+            <td className="border border-slate-300 p-2">Error</td>
+            <td className="border border-slate-300 p-2">{stack_last}</td>
           </tr>
         </table>
         <p>Details</p>
@@ -36,7 +38,7 @@ export default function ErrorMessage({ status, message, stack, details }:
         <pre className="p-5 text-xs">{stack}</pre>
       </div>
       ) : (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className={styles.message}>
         <p className="text-3xl">
           <span className="text-red-800">{status}</span> | {message}
         </p>

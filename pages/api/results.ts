@@ -18,6 +18,5 @@ export default async function handler(
     },
   );
   const documents = await results.json();
-  const apiStatus = results.status;
-  res.status(apiStatus).json(documents);
+  res.status(results.status).json(documents);
 }

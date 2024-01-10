@@ -1,17 +1,23 @@
-import { domains } from "@/config/domains";
-import { useSettingsStore } from "@/store/settingsStore";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import {
   AdjustmentsHorizontalIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
-export default function Header() {
+import { domains } from "@/config/domains";
+import { getStyles } from "@/config/styles";
+import { useSettingsStore } from "@/store/settingsStore";
+import Settings from "@/components/Settings";
+
+
+export default function Header()
+{
   const [query, setQuery] = useState("");
   const settings = useSettingsStore();
   const router = useRouter();
+  const styles = getStyles();
 
   useEffect(() => {
     if (router.isReady && router.query.q) {
@@ -33,7 +39,6 @@ export default function Header() {
       }
     });
     const filteredDomainsString = filteredDomains.toString();
-
     return filteredDomainsString;
   };
 
@@ -69,76 +74,27 @@ export default function Header() {
               </p>
             </Link>
             <form
-              onSubmit={(e) => {
-                fetchNewQuery(e, filteredDomainsToString());
-              }}
               className="join w-full max-w-sm sm:ml-4 sm:max-w-md"
-            >
+              onSubmit={(e) => {fetchNewQuery(e, filteredDomainsToString()); }}>
               <input
                 type="text"
                 value={query}
                 placeholder="Search…"
                 onChange={(e) => handleQueryChange(e)}
-                className="input join-item input-bordered input-sm flex-grow"
-              />
+                className="input join-item input-bordered input-sm flex-grow" />
               <button type="submit" className="btn btn-square join-item btn-sm">
                 <MagnifyingGlassIcon className="h-5 w-5" />
               </button>
               <label
                 htmlFor="settings-drawer"
-                className="btn btn-square join-item drawer-button btn-sm"
-              >
+                className="btn btn-square join-item drawer-button btn-sm">
                 <AdjustmentsHorizontalIcon className="h-5 w-5" />
               </label>
             </form>
           </div>
         </header>
       </div>
-      <div className="drawer-side">
-        <label
-          htmlFor="settings-drawer"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <ul className="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
-          <li>
-            <h2 className="menu-title">Domain Filters</h2>
-            <ul>
-              {domains.map((domain, i) => {
-                return (
-                  <li key={i}>
-                    <label className="label justify-start gap-x-4">
-                      <input
-                        type="checkbox"
-                        checked={!!settings.domains[i].enabled}
-                        onChange={() => settings.toggleDomain(i)}
-                        className="checkbox checkbox-sm"
-                      />
-                      <span className="label-text">{domain}</span>
-                    </label>
-                  </li>
-                );
-              })}
-            </ul>
-          </li>
-          <li>
-            <h2 className="menu-title">Display Settings</h2>
-            <ul>
-              <li>
-                <label className="label justify-start gap-x-4">
-                  <input
-                    type="checkbox"
-                    checked={!!settings.devMode}
-                    onChange={() => settings.toggleDevMode()}
-                    className="checkbox checkbox-sm"
-                  />
-                  <span className="label-text">Developer Mode</span>
-                </label>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+      <Settings />
     </div>
   );
 }
