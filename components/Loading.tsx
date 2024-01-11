@@ -1,6 +1,11 @@
+import { getStyles } from "@/config/styles";
+
 export default function Loading() {
+
+  const styles = getStyles();
+
   return (
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div className={styles.message}>
       <svg
         width="67.5"
         height="70"

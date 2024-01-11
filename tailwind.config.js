@@ -8,13 +8,13 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
 
   daisyui: {
     themes: [
       {
         light: {
-          ...require("daisyui/src/theming/themes")["[data-theme=light]"],
+          ...require("daisyui/src/theming/themes")["light"],
           primary: "#1e40af",
           secondary: "#166534",
         },

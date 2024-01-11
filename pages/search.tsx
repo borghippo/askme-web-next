@@ -1,120 +1,67 @@
-import SearchResultsCards from "@/components/SearchResultsCards";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { useState } from "react";
+import useSWR, { Fetcher } from "swr";
 import { useRouter } from "next/router";
-import Header from "@/components/Header";
-import { getQueryString } from "@/utils/getQueryString";
-import Head from "next/head";
 import Loading from "@/components/Loading";
-import { AskMeResultData, DisplayMode } from "@/types";
+import ErrorMessage from "@/components/ErrorMessage";
+import { AskMeError, AskMeResultData } from "@/types";
+import SearchResultsCards from "@/components/SearchResultsCards";
+import Pagination from "@/components/Pagination";
 
-export default function Search({
-  c: corpusProp,
-  q: queryProp,
-  data: dataProp,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<AskMeResultData>(dataProp);
-  const [displayMode, setDisplayMode] = useState<DisplayMode>(
-    DisplayMode.Normal,
-  );
+
+const fetcher: Fetcher<AskMeResultData, string> = async (url) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    const { message, stack, details } = await res.json();
+    const status = res.status;
+    const error: AskMeError = { message, status, stack, details };
+    throw error;
+  }
+  return res.json();
+};
+
+
+export default function Search()
+{
   const router = useRouter();
+  const { q, domains, type, page } = router.query;
+  const typeString = type ? `&type=${type}` : "";
+  const pageString = page ? `&page=${page}` : "&page=1";
+  const domainsString = domains ? `&domains=${domains}` : "";
 
-  const fetchResults = async (e: any, corpus: string, query: string) => {
-    e.preventDefault();
-    if (
-      !(query == queryProp && corpus == corpusProp) &&
-      query &&
-      router &&
-      !loading
-    ) {
-      setLoading(true);
-      router.push({
-        pathname: "/search",
-        query: {
-          c: corpus,
-          q: query,
-        },
-      });
-    }
+  const { data, error } = useSWR(
+    q ? `/api/results?q=${q}${domainsString}${typeString}${pageString}` : null,
+    fetcher,
+    { revalidateOnFocus: false },
+  );
+
+  const handlePage = (pageNumber: number) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, page: pageNumber },
+      },
+      undefined,
+      { shallow: true },
+    );
   };
 
-  // testing related documents fetching with SPA like loading until finished with backend changes so query can have its own route
-  const fetchRelated = async (e: any, corpus: string, query: string) => {
-    e.preventDefault();
-    if (!loading && corpus && query) {
-      setLoading(true);
-      const requestData = { corpus: corpus, query: query };
-      const res = await fetch("/api/fetchRelatedDocuments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-      const relatedDocuments = await res.json();
-      console.log(relatedDocuments);
-      setData((prev) => ({
-        ...prev,
-        documents: relatedDocuments,
-      }));
-      setDisplayMode(DisplayMode.Related);
-      setLoading(false);
-    }
-  };
-
-  // temp method to get back to original results by reloading route
-  const backToResults = () => {
-    setLoading(true);
-    router.reload();
-  };
+  if (error) {
+    return <ErrorMessage status={error.status} message={error.message}
+                         stack={error.stack} details={error.details}/>;
+  }
 
   return (
-    <>
-      <Head>
-        <title>{queryProp}</title>
-        <meta name="description" content="askme anything" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header
-        corpusProp={corpusProp}
-        queryProp={queryProp}
-        fetchResults={fetchResults}
-      />
-      {!loading ? (
-        <SearchResultsCards
-          results={data.documents}
-          corpus={corpusProp}
-          fetchRelated={fetchRelated}
-          displayMode={displayMode}
-          setDisplayMode={setDisplayMode}
-          backToResults={backToResults}
-        />
+    <div>
+      {data ? (
+        <div className="my-3 flex flex-col items-center">
+          <SearchResultsCards results={data.documents} />
+          {data.documents.length != 0 &&
+            Object.keys(data.pages).length != 1 && (
+              <Pagination pages={data.pages} handlePage={handlePage} />
+            )}
+        </div>
       ) : (
         <Loading />
       )}
-    </>
+    </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const params = context.query;
-  const { c, q } = params;
-
-  if (!c || !q) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/",
-      },
-    };
-  }
-
-  const queryString = getQueryString(c as string, q as string);
-  const res = await fetch(queryString, {
-    method: "POST",
-  });
-  const data: AskMeResultData = await res.json();
-  return { props: { c, q, data } };
-};

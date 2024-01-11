@@ -2,25 +2,62 @@ export interface AskMeResultData {
   query: {
     question: string;
   };
-  documents: AskMeDocument[];
+  documents: AskMeDocumentMultiple[];
   duration: number;
+  pages: AskMePages;
 }
 
-export interface AskMeDocument {
-  id: string;
-  title: {
-    text: string;
+export interface AskMePages {
+  self: number;
+  next?: number;
+  previous?: number;
+  first?: number;
+  last?: number;
+}
+
+export interface AskMeRelatedData {
+  query: {
+    doc_id: string;
+    terms: string;
   };
-  articleAbstract: {
-    text: string;
+  documents: AskMeDocumentMultiple[];
+}
+
+export interface AskMeSet {
+  query: {
+    index: string;
+    ids: string;
   };
-  url: string;
+  documents: AskMeDocumentMultiple[];
+  terms: [tfIdf: number, count: number, name: string][];
+}
+
+export interface AskMeDocumentMultiple {
+  identifier: string;
   score: number;
   nscore: number;
+  domain: string;
+  year: number;
+  title: string;
+  url: string;
+  authors: string[];
+  summary: string;
 }
 
-export enum DisplayMode {
-  Normal,
-  Related,
-  Entity,
+export interface AskMeDocumentSingle {
+  identifier: string;
+  domain: string;
+  year: number;
+  title: string;
+  url: string;
+  authors: string[];
+  summary: string;
+  terms: [name: number, count: number, tfIdf: number][];
+}
+
+export interface AskMeError {
+  message: string;
+  status: number;
+  stack: string[];
+  details: any;
 }
