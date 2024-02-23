@@ -73,7 +73,7 @@ export default function Document()
               </thead>
               <tbody>
                 {askmeSet.terms.slice(0,settings.termsPerDocumentSet).map((term, i) => {
-                return (<Term index={i} term={term} asRow={true}/>);
+                return (<Term key={i} index={i} term={term} asRow={true}/>);
               })}
               </tbody>
             </table>
@@ -81,7 +81,7 @@ export default function Document()
           ) : (
             <div className="flex flex-wrap justify-left gap-4 ml-4 leading-5 pb-2">
               {askmeSet.terms.slice(0,settings.termsPerDocumentSet).map((term, i) => {
-                return (<Term index={i} term={term} asRow={false}/>);
+                return (<Term key={i} index={i} term={term} asRow={false}/>);
               })}
             </div>
           )}
