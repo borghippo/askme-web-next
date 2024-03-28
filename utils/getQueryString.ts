@@ -7,7 +7,7 @@ export const getResultsQueryString = (
   type: string | undefined,
 ) => {
   const typeString = type ? `&type=${type}` : "";
-  const domainsString = domains ? `&domains=${domains}` : "";
+  const domainsString = domains ? `&tags=${domains}` : "";
   const pageString = page ? `&page=${page}` : "";
   const queryString =
     (process.env.ASKME_API as string) +
