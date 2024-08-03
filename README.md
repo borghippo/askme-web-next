@@ -2,7 +2,7 @@
 
 The AskMe Search web site implemented as a Next.js site.
 
-This version depends on version 0.2.0 of the AskMe API in [https://github.com/lapps-askme/askme-light](https://github.com/lapps-askme/askme-light).
+This version depends on version 0.3.X of the AskMe API in [https://github.com/lapps-askme/askme-light](https://github.com/lapps-askme/askme-light).
 
 
 ### Building and Running
@@ -16,3 +16,4 @@ To create and start the site do the following:
 3. Run `$ npm run build` to build.
 4. Run `$ npm run start` to run (use `$npm run dev` for development mode).
 
+See [docs/next-jetstream.md](docs/next-jetstream.md) for more information on installing requirements and running the site on Jetstream.
